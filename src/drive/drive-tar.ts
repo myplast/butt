@@ -3,7 +3,6 @@ import fs = require('fs');
 import constants = require('../.constants');
 import driveAuth = require('./drive-auth');
 import { google, drive_v3 } from 'googleapis';
-import { timeout } from './drive-clone';
 import msgTools = require('../bot_utils/msg-tools');
 import tar = require('./tar');
 import fsWalk = require('../fs-walk');
@@ -17,6 +16,10 @@ import gdUtils = require('./gd-utils');
 
 const FOLDER_TYPE = 'application/vnd.google-apps.folder'
 const PARALLEL_LIMIT = 10 // The number of parallel network requests can be adjusted according to the network environment
+
+async function timeout(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 export async function driveDownloadAndTar(fileId: string, bot: TelegramBot, tarringMsg: TelegramBot.Message) {
     const dlDetails: DlVars = {
