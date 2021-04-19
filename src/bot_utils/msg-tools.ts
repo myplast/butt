@@ -20,6 +20,7 @@ export function editMessage(bot: TelegramBot, msg: TelegramBot.Message, text: st
       bot.editMessageText(text, {
         chat_id: msg.chat.id,
         message_id: msg.message_id,
+         disable_web_page_preview: true,
         parse_mode: 'HTML'
       })
         .then(resolve)
@@ -40,6 +41,7 @@ export function sendMessage(bot: TelegramBot, msg: TelegramBot.Message, text: st
   if (!delay) delay = 10000;
   bot.sendMessage(msg.chat.id, text, {
     reply_to_message_id: msg.message_id,
+    disable_web_page_preview: true,
     parse_mode: 'HTML'
   })
     .then((res) => {
@@ -69,6 +71,7 @@ export async function sendMessageAsync(bot: TelegramBot, msg: TelegramBot.Messag
     }
     bot.sendMessage(msg.chat.id, text, {
       reply_to_message_id: msg.message_id,
+      disable_web_page_preview: true,
       parse_mode: 'HTML',
       reply_markup: {
         inline_keyboard: [inlineKeyboard]
@@ -99,7 +102,8 @@ export function sendUnauthorizedMessage(bot: TelegramBot, msg: TelegramBot.Messa
 export function sendMessageReplyOriginal(bot: TelegramBot, dlDetails: details.DlVars, message: string): Promise<TelegramBot.Message> {
   return bot.sendMessage(dlDetails.tgChatId, message, {
     reply_to_message_id: dlDetails.tgMessageId,
-    parse_mode: 'HTML'
+    parse_mode: 'HTML',
+    disable_web_page_preview: true
   });
 }
 
