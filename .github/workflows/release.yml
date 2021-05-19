@@ -17,24 +17,18 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '15.x'
+          node-version: '12.x'
       - run: npm install -g typescript 
       - run: yarn
       - run: tsc
       - run : npm uninstall -S @types/async && npm uninstall -S @types/fs-extra && npm uninstall -S @types/get-folder-size && npm uninstall -S @types/mime-types && npm uninstall -S @types/node && npm uninstall -S @types/node-telegram-bot-api && npm uninstall -S @types/tar && npm uninstall -S @types/uuid 
       - name: Compress Build Outputs
         run: |
-          mkdir builds
-          tar --exclude='./src' --exclude='./postinstall.mjs' --exclude='./builds' --exclude='./.git' --exclude='./downloads' --exclude='./.github' -cf builds/tar-bot.tar .
-          tar --exclude='./src' --exclude='./postinstall.mjs' --exclude='./builds' --exclude='./.git' --exclude='./downloads' --exclude='./.github' -czf builds/tar-bot.tar.gz .
-      - uses: actions/upload-artifact@v2
-        with:
-          name: Build Location Change
-          path: builds/tar-bot.tar
+          mkdir TARBot
+          mv node_modules out TARBot/
+          tar -czf TARBot.tar.gz TARBot
+          rm -rf temp
 
-      - run: |
-          mv builds/tar-bot.tar tar-bot.tar
-          mv builds/tar-bot.tar.gz tar-bot.tar.gz
       - name: Create Release
         uses: softprops/action-gh-release@v1
         env:
@@ -42,5 +36,4 @@ jobs:
         with:
           name: Build ${{ steps.get_version.outputs.VERSION }}
           files: |
-            tar-bot.tar
-            tar-bot.tar.gz
+            TARBot.tar.gz
