@@ -36,4 +36,4 @@ jobs:
         with:
           name: Build ${{ steps.get_version.outputs.VERSION }}
           files: |
-            TARBot.tar.gz
+            TBot.tar.gz
